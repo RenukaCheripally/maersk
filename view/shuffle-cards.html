@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <main>
+      <header class="header">Shuffle and Sort</header>
+      <div class="container">
+        <section class="grid-container">
+          <div id="cards" class="grid"></div>
+        </section>
+        <section class="buttons-container">
+          <button class="button" id="shuffle-button" onclick="createElements()">
+            Shuffle
+          </button>
+          <button
+            class="button"
+            id="sort-button"
+            onclick="createElements(true)"
+          >
+            Sort
+          </button>
+        </section>
+      </div>
+      <p class="footer">Shuffle and Sort by Renuka Cheripally</p>
+    </main>
+  </body>
+</html>
+
+<style>
+  :root {
+    --black: #000;
+    --light-black: #333;
+    --white: #fff;
+    --gray: #efefef;
+    --blue-light: #72c3dc;
+    --color-1: #6f98a8;
+    --color-2: #2b8ead;
+    --color-3: #2f454e;
+    --color-6: #bfbfbf;
+  }
+
+  body {
+    margin: 10px;
+    font-family: Arial, sans-serif;
+  }
+
+  .buttons-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    grid-area: buttons-container;
+  }
+  .button {
+    background-color: var(--blue-light);
+    border-radius: 5px;
+    border: 0;
+    color: var(--white);
+    cursor: pointer;
+    padding: 6px 20px;
+  }
+  .card {
+    align-items: center;
+    color: var(--white);
+    display: flex;
+    font-size: 18px;
+    font-weight: bold;
+    height: 100px;
+    justify-content: center;
+    padding: 10px;
+    text-align: center;
+  }
+
+  .card-1,
+  .card-8 {
+    background-color: var(--color-1);
+  }
+  .card-2,
+  .card-4 {
+    background-color: var(--color-2);
+  }
+  .card-3,
+  .card-5,
+  .card-9 {
+    background-color: var(--color-3);
+  }
+  .card-6,
+  .card-7 {
+    background-color: var(--color-6);
+  }
+
+  .container {
+    display: grid;
+    grid-template-columns: 300px 100px;
+    margin-top: 10px;
+    gap: 10px;
+    grid-template-areas: "grid-container buttons-container";
+  }
+
+  .grid-container {
+    grid-area: grid-container;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, 100px);
+  }
+  @media (max-width: 375px) {
+    body {
+      margin: 0px;
+    }
+    .buttons-container {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      gap: 10px;
+    }
+    .card {
+      height: 50px;
+      position: relative;
+      background-color: var(--gray);
+      color: var(--black);
+    }
+    .card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 2%;
+      height: 100%;
+      background-color: var(
+        --color-1
+      ); /* Change the color based on the card number */
+      z-index: 1;
+    }
+    .card-1::before,
+    .card-8::before {
+      background-color: var(--color-1);
+    }
+    .card-2::before,
+    .card-4::before {
+      background-color: var(--color-2);
+    }
+    .card-3::before,
+    .card-5::before,
+    .card-9::before {
+      background-color: var(--color-3);
+    }
+    .card-6::before,
+    .card-7::before {
+      background-color: var(--color-6);
+    }
+    .container {
+      display: grid;
+      grid-template-columns: 100%;
+      margin-top: 10px;
+      gap: 10px;
+      grid-template-areas: "buttons-container" "grid-container";
+    }
+    .footer {
+      text-align: center;
+    }
+    .grid {
+      grid-template-columns: 1fr;
+      padding: 0 10px;
+      gap: 5px;
+    }
+    .header {
+      background-color: var(--black);
+      color: var(--white);
+      height: 50px;
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+</style>
+
+<script>
+  const shuffle = (array) => {
+    let currentIndex = array.length,
+      randomIndex;
+
+    while (currentIndex !== 0) {
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex--;
+
+      [array[currentIndex], array[randomIndex]] = [
+        array[randomIndex],
+        array[currentIndex],
+      ];
+    }
+
+    return array;
+  };
+  const createElements = (sortElements) => {
+    let cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+    cards = sortElements ? cards : shuffle(cards);
+    const cardsElement = document.getElementById("cards");
+    cardsElement.innerHTML = "";
+    cards.forEach((card) => {
+      const cardElement = document.createElement("div");
+      cardElement.classList.add("card");
+      cardElement.classList.add("card-" + card);
+      cardElement.innerText = card;
+      cardsElement.appendChild(cardElement);
+    });
+  };
+
+  createElements(true);
+</script>
